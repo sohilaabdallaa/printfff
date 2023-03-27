@@ -59,5 +59,5 @@ int print_str(char *str)
 	{
 		putchar(*str);
 	}
-	return (i)
+	return (i);
 }
