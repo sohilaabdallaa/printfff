@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdarg.h>
 #include "main.h"
-void print_str(char *str);
+int print_str(char *str);
 /**
  *_printf - print output according to given format.
  *@format: char string.
@@ -18,7 +18,10 @@ int _printf(const char *format, ...)
 	while (format[i] != '\0')
 	{
 		if (format[i] != '%')
+		{
 			putchar(format[i]);
+			continue;
+		}
 		else
 		{
 			switch (format[i + 1])
@@ -28,12 +31,13 @@ int _printf(const char *format, ...)
 					i++;
 					break;
 				case 's':
-					print_str(va_arg(args, char *));
-					i++;
+					i+=print_str(va_arg(args, char *));
 					break;
 				case '%':
 					putchar('%');
 					i++;
+					break;
+				default:
 					break;
 			}
 		}
@@ -47,11 +51,13 @@ int _printf(const char *format, ...)
  * @str : char pointer.
  * Return: void
  */
-void print_str(char *str)
+int print_str(char *str)
 {
-	while (*str)
+	int i = 0;
+
+	for (i = 0; *str; str++,i++)
 	{
 		putchar(*str);
-		str++;
 	}
+	return (i)
 }
