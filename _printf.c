@@ -1,63 +1,31 @@
-#include <stdio.h>
 #include <stdarg.h>
 #include "main.h"
-int print_str(char *str);
+
 /**
- *_printf - print output according to given format.
- *@format: char string.
- *Return: integer number of chars printed excluding null terminal.
- */
+ * _printf - Produces output according to a format
+ * @format: Is a character string. The format string
+ * is composed of zero or more directives
+ *
+ * Return: The number of characters printed
+ * 		(excluding the null byte '\0' used to end output to strings)
+ **/
 int _printf(const char *format, ...)
 {
-	int i = 0;
+	int size;
 	va_list args;
 
-	va_start(args, format);
 	if (format == NULL)
 		return (-1);
-	while (format[i] != '\0')
-	{
-		if (format[i] != '%')
-		{
-			putchar(format[i]);
-			continue;
-		}
-		else
-		{
-			switch (format[i + 1])
-			{
-				case 'c':
-					putchar(va_arg(args, int));
-					i++;
-					break;
-				case 's':
-					i+=print_str(va_arg(args, char *));
-					break;
-				case '%':
-					putchar('%');
-					i++;
-					break;
-				default:
-					break;
-			}
-		}
-		i++;
-	}
-	va_end(args);
-	return (i);
-}
-/**
- * print_str - print given string.
- * @str : char pointer.
- * Return: void
- */
-int print_str(char *str)
-{
-	int i = 0;
 
-	for (i = 0; *str; str++,i++)
-	{
-		putchar(*str);
-	}
-	return (i);
+	size = _strlen(format);
+	if (size <= 0)
+		return (0);
+
+	va_start(args, format);
+	size = handler(format, args);
+
+	_putchar(-1);
+	va_end(args);
+
+	return (size);
 }
